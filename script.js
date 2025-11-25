@@ -1,5 +1,5 @@
 let wood = 50; // Start with 50 wood
-let wps = 0; // Will be calculated from buildings
+let wps = 1; // Base 1 wps, will be calculated from buildings
 
 let population = 0;
 let housingCapacity = 0;
@@ -51,7 +51,7 @@ function resetGame() {
   if (confirm('Are you sure you want to reset your game? This cannot be undone.')) {
     localStorage.removeItem('cityGameSave');
     wood = 50;
-    wps = 0;
+    wps = 1;
     population = 0;
     housingCapacity = 0;
     tepees = 0;
@@ -73,7 +73,7 @@ function loadGame() {
     try {
       const gameState = JSON.parse(saved);
       wood = gameState.wood || 50;
-      wps = gameState.wps || 0;
+      wps = gameState.wps || 1;
       population = gameState.population || 0;
       housingCapacity = gameState.housingCapacity || 0;
       // Load new tiered buildings, with fallback for old saves
@@ -112,8 +112,10 @@ function updateUI() {
 }
 
 function calculateWPS() {
-  // Wood per second from deforest stations and lumber mills
-  wps = (deforestStations * 0.6) + (lumberMills * 1.8);
+  // Base 1 wps always, plus buildings
+  // Tier 1 (Lumber Mill): +1 wps each
+  // Tier 2 (Wood Processing Plant): +3 wps each
+  wps = 1 + (deforestStations * .6) + (lumberMills * 1.8);
 }
 
 function calculateHousingCapacity() {
@@ -146,7 +148,7 @@ function updateButtonStates() {
   if (lumberMillButton) {
     lumberMillButton.disabled = deforestStations === 0;
     if (deforestStations === 0) {
-      lumberMillButton.title = "Build a Deforest Station first to unlock";
+      lumberMillButton.title = "Build a Lumber Mill first to unlock";
     } else {
       lumberMillButton.title = "";
     }
@@ -210,7 +212,7 @@ function buyDeforestStation() {
 
 // Wood production tier 2
 function buyLumberMill() {
-  if (deforestStations === 0) return; // Must have at least one deforest station
+  if (deforestStations === 0) return; // Must have at least one Lumber Mill (tier 1)
   if (wood >= 80) {
     wood -= 80;
     lumberMills++;
@@ -221,7 +223,7 @@ function buyLumberMill() {
 }
 
 setInterval(() => {
-  // Produce wood from deforest stations and lumber mills
+  // Produce wood (base 1 + buildings)
   wood += wps;
   
   // Produce people from farms (capped by housing capacity)
