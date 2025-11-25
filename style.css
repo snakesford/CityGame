@@ -1,0 +1,19 @@
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial;
+      text-align: center;
+      padding: 30px;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background-color: #555;
+    }

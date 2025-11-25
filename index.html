@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Build a City</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+
+  <h1>Build a City</h1>
+
+  <h2>Population: <span id="population">0</span> / <span id="housingCapacity">0</span></h2>
+
+  <h3>Wood: <span id="wood">0</span></h3>
+  <h4>Wood / sec: <span id="wps">0</span></h4>
+
+  <div style="margin: 20px 0;">
+    <h3>Housing</h3>
+    <div>
+      <button onclick="buyTepee()">Build Tepee (8)</button>
+    </div>
+    <div style="margin-top: 10px;">
+      <button id="buyCabinBtn" onclick="buyCabin()" disabled>Build Wooden Cabin (20)</button>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0;">
+    <h3>Farming</h3>
+    <div>
+      <button onclick="buySingleField()">Build Single Field (20)</button>
+    </div>
+    <div style="margin-top: 10px;">
+      <button id="buySmallFarmBtn" onclick="buySmallFarm()" disabled>Build Small Farm (50)</button>
+    </div>
+  </div>
+
+  <div style="margin: 20px 0;">
+    <h3>Wood Production</h3>
+    <div>
+      <button onclick="buyDeforestStation()">Build Deforest Station (35)</button>
+    </div>
+    <div style="margin-top: 10px;">
+      <button id="buyLumberMillBtn" onclick="buyLumberMill()" disabled>Build Lumber Mill (80)</button>
+    </div>
+  </div>
+
+  <p>
+    Tepees: <span id="tepees">0</span> |
+    Cabins: <span id="cabins">0</span> |
+    Single Fields: <span id="singleFields">0</span> |
+    Small Farms: <span id="smallFarms">0</span> |
+    Deforest Stations: <span id="deforestStations">0</span> |
+    Lumber Mills: <span id="lumberMills">0</span>
+  </p>
+
+  <div style="margin-top: 20px;">
+    <button onclick="saveGame()">Save Game</button>
+    <button onclick="resetGame()">Reset Game</button>
+  </div>
+  <p style="font-size: 12px; color: #888;" id="saveStatus"></p>
+
+  <script type="text/javascript" src="script.js"></script>
+
+</body>
+</html>
