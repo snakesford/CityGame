@@ -12,6 +12,55 @@ let smallFarms = 0;
 let deforestStations = 0;
 let lumberMills = 0;
 
+// Building data structure
+const buildingData = {
+  tepee: {
+    name: "Tepee",
+    cost: 8,
+    type: "housing",
+    benefit: "+3 Housing Capacity",
+    tier: 1
+  },
+  cabin: {
+    name: "Wooden Cabin",
+    cost: 20,
+    type: "housing",
+    benefit: "+8 Housing Capacity",
+    tier: 2,
+    requires: "tepee"
+  },
+  singleField: {
+    name: "Single Field",
+    cost: 20,
+    type: "farming",
+    benefit: "+0.4 People/sec",
+    tier: 1
+  },
+  smallFarm: {
+    name: "Small Farm",
+    cost: 50,
+    type: "farming",
+    benefit: "+1.0 People/sec",
+    tier: 2,
+    requires: "singleField"
+  },
+  lumberMill: {
+    name: "Lumber Mill",
+    cost: 35,
+    type: "wood",
+    benefit: "+0.6 Wood/sec",
+    tier: 1
+  },
+  woodProcessingPlant: {
+    name: "Wood Processing Plant",
+    cost: 80,
+    type: "wood",
+    benefit: "+1.8 Wood/sec",
+    tier: 2,
+    requires: "lumberMill"
+  }
+};
+
 // Progress tracking - save game state to localStorage
 function saveGame() {
   const gameState = {
@@ -240,7 +289,66 @@ setInterval(() => {
   updateUI();
 }, 1000);
 
+// Tooltip functions
+function showTooltip(event, buildingKey) {
+  const tooltip = document.getElementById('tooltip');
+  const building = buildingData[buildingKey];
+  if (!building || !tooltip) return;
+
+  const canAfford = wood >= building.cost;
+  const requirement = building.requires ? buildingData[building.requires] : null;
+  const hasRequirement = requirement ? 
+    (buildingKey === 'cabin' ? tepees > 0 :
+     buildingKey === 'smallFarm' ? singleFields > 0 :
+     buildingKey === 'woodProcessingPlant' ? deforestStations > 0 : true) : true;
+
+  let tooltipHTML = `<strong>${building.name}</strong><br>`;
+  tooltipHTML += `<span style="color: ${canAfford ? '#4CAF50' : '#f44336'}">Cost: ${building.cost} Wood</span><br>`;
+  tooltipHTML += `<span style="color: #FFD700">${building.benefit}</span>`;
+  
+  if (requirement && !hasRequirement) {
+    tooltipHTML += `<br><span style="color: #ff9800">Requires: ${requirement.name}</span>`;
+  }
+
+  tooltip.innerHTML = tooltipHTML;
+  tooltip.style.display = 'block';
+  
+  // Position tooltip
+  const rect = event.target.getBoundingClientRect();
+  tooltip.style.left = (rect.left + rect.width / 2 - tooltip.offsetWidth / 2) + 'px';
+  tooltip.style.top = (rect.bottom + 10) + 'px';
+}
+
+function hideTooltip() {
+  const tooltip = document.getElementById('tooltip');
+  if (tooltip) {
+    tooltip.style.display = 'none';
+  }
+}
+
+// Initialize tooltip event listeners
+function initTooltips() {
+  const buttons = {
+    'buyTepeeBtn': 'tepee',
+    'buyCabinBtn': 'cabin',
+    'buySingleFieldBtn': 'singleField',
+    'buySmallFarmBtn': 'smallFarm',
+    'buyLumberMillTier1Btn': 'lumberMill',
+    'buyWoodProcessingPlantBtn': 'woodProcessingPlant'
+  };
+
+  for (const [buttonId, buildingKey] of Object.entries(buttons)) {
+    const button = document.getElementById(buttonId);
+    if (button) {
+      button.addEventListener('mouseenter', (e) => showTooltip(e, buildingKey));
+      button.addEventListener('mouseleave', hideTooltip);
+    }
+  }
+}
+
 // Load saved game on page load
 loadGame();
 updateUI();
 updateSaveStatus();
+// Initialize tooltips after DOM is ready
+setTimeout(initTooltips, 100);

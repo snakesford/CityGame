@@ -6,6 +6,8 @@
 </head>
 <body>
 
+  <div id="tooltip" style="display: none;"></div>
+
   <h1>Build a City</h1>
 
   <h2>Population: <span id="population">0</span> / <span id="housingCapacity">0</span></h2>
@@ -17,30 +19,30 @@
     <div style="flex: 1; min-width: 200px;">
       <h3>Housing</h3>
       <div>
-        <button onclick="buyTepee()">Build Tepee (8)</button>
+        <button id="buyTepeeBtn" class="building-btn housing-tier1" onclick="buyTepee()">Build Tepee (8)</button>
       </div>
       <div style="margin-top: 10px;">
-        <button id="buyCabinBtn" onclick="buyCabin()" disabled>Build Wooden Cabin (20)</button>
+        <button id="buyCabinBtn" class="building-btn housing-tier2" onclick="buyCabin()" disabled>Build Wooden Cabin (20)</button>
       </div>
     </div>
 
     <div style="flex: 1; min-width: 200px;">
       <h3>Farming</h3>
       <div>
-        <button onclick="buySingleField()">Build Single Field (20)</button>
+        <button id="buySingleFieldBtn" class="building-btn farming-tier1" onclick="buySingleField()">Build Single Field (20)</button>
       </div>
       <div style="margin-top: 10px;">
-        <button id="buySmallFarmBtn" onclick="buySmallFarm()" disabled>Build Small Farm (50)</button>
+        <button id="buySmallFarmBtn" class="building-btn farming-tier2" onclick="buySmallFarm()" disabled>Build Small Farm (50)</button>
       </div>
     </div>
 
     <div style="flex: 1; min-width: 200px;">
       <h3>Wood Production</h3>
       <div>
-        <button onclick="buyDeforestStation()">Build Lumber Mill (35)</button>
+        <button id="buyLumberMillTier1Btn" class="building-btn wood-tier1" onclick="buyDeforestStation()">Build Lumber Mill (35)</button>
       </div>
       <div style="margin-top: 10px;">
-        <button id="buyLumberMillBtn" onclick="buyLumberMill()" disabled>Build Wood Processing Plant (80)</button>
+        <button id="buyWoodProcessingPlantBtn" class="building-btn wood-tier2" onclick="buyLumberMill()" disabled>Build Wood Processing Plant (80)</button>
       </div>
     </div>
   </div>
