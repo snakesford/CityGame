@@ -176,7 +176,7 @@ function updateButtonStates() {
   // Enable/disable tier 2 buttons based on unlocks
   const cabinButton = document.getElementById("buyCabinBtn");
   const smallFarmButton = document.getElementById("buySmallFarmBtn");
-  const lumberMillButton = document.getElementById("buyLumberMillBtn");
+  const woodProcessingPlantButton = document.getElementById("buyWoodProcessingPlantBtn");
 
   if (cabinButton) {
     cabinButton.disabled = tepees === 0;
@@ -194,12 +194,12 @@ function updateButtonStates() {
       smallFarmButton.title = "";
     }
   }
-  if (lumberMillButton) {
-    lumberMillButton.disabled = deforestStations === 0;
+  if (woodProcessingPlantButton) {
+    woodProcessingPlantButton.disabled = deforestStations === 0;
     if (deforestStations === 0) {
-      lumberMillButton.title = "Build a Lumber Mill first to unlock";
+      woodProcessingPlantButton.title = "Build a Lumber Mill first to unlock";
     } else {
-      lumberMillButton.title = "";
+      woodProcessingPlantButton.title = "";
     }
   }
 }
