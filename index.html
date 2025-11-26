@@ -12,8 +12,8 @@
 
   <h2>Population: <span id="population">0</span> / <span id="housingCapacity">0</span></h2>
 
-  <h3>Wood: <span id="wood">0</span></h3>
-  <h4>Wood / sec: <span id="wps">1</span></h4>
+  <h3>Wood: <img src="wood-log.png" alt="Wood" style="width: 24px; height: 24px; vertical-align: middle; margin: 0 5px;"> <span id="wood">0</span></h3>
+  <h4>Wood / sec: <img src="wood-log.png" alt="Wood" style="width: 20px; height: 20px; vertical-align: middle; margin: 0 3px;"> <span id="wps">1</span></h4>
 
   <h3>Minerals: <span id="minerals">0</span></h3>
   <h4>Minerals / sec: <span id="mps">0</span></h4>
@@ -31,55 +31,55 @@
     <div style="flex: 1; min-width: 200px;">
       <h3>Housing</h3>
       <div>
-        <button id="buyTepeeBtn" class="building-btn housing-tier1" onclick="buyTepee()">Build Tepee (8)</button>
+        <button id="buyTepeeBtn" class="building-btn housing-tier1" onclick="buyTepee()">Build Tepee (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 8)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyCabinBtn" class="building-btn housing-tier2" onclick="buyCabin()" disabled>Build Wooden Cabin (20)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyCabinBtn" class="building-btn housing-tier2" onclick="buyCabin()">Build Wooden Cabin (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 20)</button>
       </div>
     </div>
 
     <div style="flex: 1; min-width: 200px;">
       <h3>Farming</h3>
       <div>
-        <button id="buySingleFieldBtn" class="building-btn farming-tier1" onclick="buySingleField()">Build Single Field (20)</button>
+        <button id="buySingleFieldBtn" class="building-btn farming-tier1" onclick="buySingleField()">Build Single Field (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 20)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buySmallFarmBtn" class="building-btn farming-tier2" onclick="buySmallFarm()" disabled>Build Small Farm (50)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buySmallFarmBtn" class="building-btn farming-tier2" onclick="buySmallFarm()">Build Small Farm (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 50)</button>
       </div>
     </div>
 
     <div style="flex: 1; min-width: 200px;">
       <h3>Wood Production</h3>
       <div>
-        <button id="buyLumberMillTier1Btn" class="building-btn wood-tier1" onclick="buyDeforestStation()">Build Lumber Mill (35)</button>
+        <button id="buyLumberMillTier1Btn" class="building-btn wood-tier1" onclick="buyDeforestStation()">Build Lumber Mill (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 35)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyWoodProcessingPlantBtn" class="building-btn wood-tier2" onclick="buyLumberMill()" disabled>Build Wood Processing Plant (80)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyWoodProcessingPlantBtn" class="building-btn wood-tier2" onclick="buyLumberMill()">Build Wood Processing Plant (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 80)</button>
       </div>
     </div>
 
     <div style="flex: 1; min-width: 200px;">
       <h3>Minerals</h3>
       <div>
-        <button id="buyStoneQuarryBtn" class="building-btn mineral-tier1" onclick="buyStoneQuarry()">Build Stone Quarry (40)</button>
+        <button id="buyStoneQuarryBtn" class="building-btn mineral-tier1" onclick="buyStoneQuarry()">Build Stone Quarry (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 40)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyClayPoolBtn" class="building-btn mineral-tier2" onclick="buyClayPool()" disabled>Build Clay Pool (60)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyClayPoolBtn" class="building-btn mineral-tier2" onclick="buyClayPool()">Build Clay Pool (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 60)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyLimestoneQuarryBtn" class="building-btn mineral-tier3" onclick="buyLimestoneQuarry()" disabled>Build Limestone Quarry (80)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyLimestoneQuarryBtn" class="building-btn mineral-tier3" onclick="buyLimestoneQuarry()">Build Limestone Quarry (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 80)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyIronMineBtn" class="building-btn mineral-tier4" onclick="buyIronMine()" disabled>Build Iron Mine (100)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyIronMineBtn" class="building-btn mineral-tier4" onclick="buyIronMine()">Build Iron Mine (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 100)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyCopperMineBtn" class="building-btn mineral-tier5" onclick="buyCopperMine()" disabled>Build Copper Mine (120)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyCopperMineBtn" class="building-btn mineral-tier5" onclick="buyCopperMine()">Build Copper Mine (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 120)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyTinMineBtn" class="building-btn mineral-tier6" onclick="buyTinMine()" disabled>Build Tin Mine (140)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyTinMineBtn" class="building-btn mineral-tier6" onclick="buyTinMine()">Build Tin Mine (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 140)</button>
       </div>
-      <div style="margin-top: 10px;">
-        <button id="buyCoalMineBtn" class="building-btn mineral-tier7" onclick="buyCoalMine()" disabled>Build Coal Mine (160)</button>
+      <div style="margin-top: 10px; display: none;">
+        <button id="buyCoalMineBtn" class="building-btn mineral-tier7" onclick="buyCoalMine()">Build Coal Mine (<img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"> 160)</button>
       </div>
     </div>
   </div>

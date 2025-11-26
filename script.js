@@ -321,89 +321,142 @@ function calculateHousingCapacity() {
 }
 
 function updateButtonStates() {
-  // Enable/disable tier 2 buttons based on unlocks
+  // Show/hide tier 2 buttons based on unlocks
   const cabinButton = document.getElementById("buyCabinBtn");
+  const cabinDiv = cabinButton ? cabinButton.parentElement : null;
   const smallFarmButton = document.getElementById("buySmallFarmBtn");
+  const smallFarmDiv = smallFarmButton ? smallFarmButton.parentElement : null;
   const woodProcessingPlantButton = document.getElementById("buyWoodProcessingPlantBtn");
+  const woodProcessingPlantDiv = woodProcessingPlantButton ? woodProcessingPlantButton.parentElement : null;
   
   // Mineral building buttons
   const clayPoolButton = document.getElementById("buyClayPoolBtn");
+  const clayPoolDiv = clayPoolButton ? clayPoolButton.parentElement : null;
   const limestoneQuarryButton = document.getElementById("buyLimestoneQuarryBtn");
+  const limestoneQuarryDiv = limestoneQuarryButton ? limestoneQuarryButton.parentElement : null;
   const ironMineButton = document.getElementById("buyIronMineBtn");
+  const ironMineDiv = ironMineButton ? ironMineButton.parentElement : null;
   const copperMineButton = document.getElementById("buyCopperMineBtn");
+  const copperMineDiv = copperMineButton ? copperMineButton.parentElement : null;
   const tinMineButton = document.getElementById("buyTinMineBtn");
+  const tinMineDiv = tinMineButton ? tinMineButton.parentElement : null;
   const coalMineButton = document.getElementById("buyCoalMineBtn");
+  const coalMineDiv = coalMineButton ? coalMineButton.parentElement : null;
 
-  if (cabinButton) {
-    cabinButton.disabled = tepees === 0;
+  // Housing tier 2
+  if (cabinDiv) {
     if (tepees === 0) {
-      cabinButton.title = "Build a Tepee first to unlock";
+      cabinDiv.style.display = 'none';
     } else {
-      cabinButton.title = "";
+      cabinDiv.style.display = 'block';
+      if (cabinButton) {
+        cabinButton.disabled = false;
+        cabinButton.title = "";
+      }
     }
   }
-  if (smallFarmButton) {
-    smallFarmButton.disabled = singleFields === 0;
+  
+  // Farming tier 2
+  if (smallFarmDiv) {
     if (singleFields === 0) {
-      smallFarmButton.title = "Build a Single Field first to unlock";
+      smallFarmDiv.style.display = 'none';
     } else {
-      smallFarmButton.title = "";
+      smallFarmDiv.style.display = 'block';
+      if (smallFarmButton) {
+        smallFarmButton.disabled = false;
+        smallFarmButton.title = "";
+      }
     }
   }
-  if (woodProcessingPlantButton) {
-    woodProcessingPlantButton.disabled = deforestStations === 0;
+  
+  // Wood Production tier 2
+  if (woodProcessingPlantDiv) {
     if (deforestStations === 0) {
-      woodProcessingPlantButton.title = "Build a Lumber Mill first to unlock";
+      woodProcessingPlantDiv.style.display = 'none';
     } else {
-      woodProcessingPlantButton.title = "";
+      woodProcessingPlantDiv.style.display = 'block';
+      if (woodProcessingPlantButton) {
+        woodProcessingPlantButton.disabled = false;
+        woodProcessingPlantButton.title = "";
+      }
     }
   }
-  if (clayPoolButton) {
-    clayPoolButton.disabled = minerals < 20;
+  
+  // Clay Pool
+  if (clayPoolDiv) {
     if (minerals < 20) {
-      clayPoolButton.title = "Requires 20 Minerals to unlock";
+      clayPoolDiv.style.display = 'none';
     } else {
-      clayPoolButton.title = "";
+      clayPoolDiv.style.display = 'block';
+      if (clayPoolButton) {
+        clayPoolButton.disabled = false;
+        clayPoolButton.title = "";
+      }
     }
   }
-  if (limestoneQuarryButton) {
-    limestoneQuarryButton.disabled = clay < 20;
+  
+  // Limestone Quarry
+  if (limestoneQuarryDiv) {
     if (clay < 20) {
-      limestoneQuarryButton.title = "Requires 20 Clay to unlock";
+      limestoneQuarryDiv.style.display = 'none';
     } else {
-      limestoneQuarryButton.title = "";
+      limestoneQuarryDiv.style.display = 'block';
+      if (limestoneQuarryButton) {
+        limestoneQuarryButton.disabled = false;
+        limestoneQuarryButton.title = "";
+      }
     }
   }
-  if (ironMineButton) {
-    ironMineButton.disabled = limestone < 20;
+  
+  // Iron Mine
+  if (ironMineDiv) {
     if (limestone < 20) {
-      ironMineButton.title = "Requires 20 Limestone to unlock";
+      ironMineDiv.style.display = 'none';
     } else {
-      ironMineButton.title = "";
+      ironMineDiv.style.display = 'block';
+      if (ironMineButton) {
+        ironMineButton.disabled = false;
+        ironMineButton.title = "";
+      }
     }
   }
-  if (copperMineButton) {
-    copperMineButton.disabled = iron < 20;
+  
+  // Copper Mine
+  if (copperMineDiv) {
     if (iron < 20) {
-      copperMineButton.title = "Requires 20 Iron to unlock";
+      copperMineDiv.style.display = 'none';
     } else {
-      copperMineButton.title = "";
+      copperMineDiv.style.display = 'block';
+      if (copperMineButton) {
+        copperMineButton.disabled = false;
+        copperMineButton.title = "";
+      }
     }
   }
-  if (tinMineButton) {
-    tinMineButton.disabled = copper < 20;
+  
+  // Tin Mine
+  if (tinMineDiv) {
     if (copper < 20) {
-      tinMineButton.title = "Requires 20 Copper to unlock";
+      tinMineDiv.style.display = 'none';
     } else {
-      tinMineButton.title = "";
+      tinMineDiv.style.display = 'block';
+      if (tinMineButton) {
+        tinMineButton.disabled = false;
+        tinMineButton.title = "";
+      }
     }
   }
-  if (coalMineButton) {
-    coalMineButton.disabled = tin < 20;
+  
+  // Coal Mine
+  if (coalMineDiv) {
     if (tin < 20) {
-      coalMineButton.title = "Requires 20 Tin to unlock";
+      coalMineDiv.style.display = 'none';
     } else {
-      coalMineButton.title = "";
+      coalMineDiv.style.display = 'block';
+      if (coalMineButton) {
+        coalMineButton.disabled = false;
+        coalMineButton.title = "";
+      }
     }
   }
 }
@@ -613,7 +666,7 @@ function showTooltip(event, buildingKey) {
      buildingKey === 'woodProcessingPlant' ? deforestStations > 0 : true) : true;
 
   let tooltipHTML = `<strong>${building.name}</strong><br>`;
-  tooltipHTML += `<span style="color: ${canAfford ? '#4CAF50' : '#f44336'}">Cost: ${building.cost} Wood</span><br>`;
+  tooltipHTML += `<span style="color: ${canAfford ? '#4CAF50' : '#f44336'}">Cost: ${building.cost} <img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"></span><br>`;
   tooltipHTML += `<span style="color: #FFD700">${building.benefit}</span>`;
   
   if (requirement && !hasRequirement) {
