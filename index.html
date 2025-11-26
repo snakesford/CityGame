@@ -15,6 +15,18 @@
   <h3>Wood: <span id="wood">0</span></h3>
   <h4>Wood / sec: <span id="wps">1</span></h4>
 
+  <h3>Minerals: <span id="minerals">0</span></h3>
+  <h4>Minerals / sec: <span id="mps">0</span></h4>
+  
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 10px 0;">
+    <div>Clay: <span id="clay">0</span></div>
+    <div>Limestone: <span id="limestone">0</span></div>
+    <div>Iron: <span id="iron">0</span></div>
+    <div>Copper: <span id="copper">0</span></div>
+    <div>Tin: <span id="tin">0</span></div>
+    <div>Coal: <span id="coal">0</span></div>
+  </div>
+
   <div style="display: flex; justify-content: space-around; margin: 20px 0; flex-wrap: wrap; gap: 20px;">
     <div style="flex: 1; min-width: 200px;">
       <h3>Housing</h3>
@@ -45,6 +57,31 @@
         <button id="buyWoodProcessingPlantBtn" class="building-btn wood-tier2" onclick="buyLumberMill()" disabled>Build Wood Processing Plant (80)</button>
       </div>
     </div>
+
+    <div style="flex: 1; min-width: 200px;">
+      <h3>Minerals</h3>
+      <div>
+        <button id="buyStoneQuarryBtn" class="building-btn mineral-tier1" onclick="buyStoneQuarry()">Build Stone Quarry (40)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyClayPoolBtn" class="building-btn mineral-tier2" onclick="buyClayPool()" disabled>Build Clay Pool (60)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyLimestoneQuarryBtn" class="building-btn mineral-tier3" onclick="buyLimestoneQuarry()" disabled>Build Limestone Quarry (80)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyIronMineBtn" class="building-btn mineral-tier4" onclick="buyIronMine()" disabled>Build Iron Mine (100)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyCopperMineBtn" class="building-btn mineral-tier5" onclick="buyCopperMine()" disabled>Build Copper Mine (120)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyTinMineBtn" class="building-btn mineral-tier6" onclick="buyTinMine()" disabled>Build Tin Mine (140)</button>
+      </div>
+      <div style="margin-top: 10px;">
+        <button id="buyCoalMineBtn" class="building-btn mineral-tier7" onclick="buyCoalMine()" disabled>Build Coal Mine (160)</button>
+      </div>
+    </div>
   </div>
 
   <p>
@@ -53,7 +90,14 @@
     Single Fields: <span id="singleFields">0</span> |
     Small Farms: <span id="smallFarms">0</span> |
     Lumber Mills: <span id="deforestStations">0</span> |
-    Wood Processing Plants: <span id="lumberMills">0</span>
+    Wood Processing Plants: <span id="lumberMills">0</span> |
+    Stone Quarries: <span id="stoneQuarries">0</span> |
+    Clay Pools: <span id="clayPools">0</span> |
+    Limestone Quarries: <span id="limestoneQuarries">0</span> |
+    Iron Mines: <span id="ironMines">0</span> |
+    Copper Mines: <span id="copperMines">0</span> |
+    Tin Mines: <span id="tinMines">0</span> |
+    Coal Mines: <span id="coalMines">0</span>
   </p>
 
   <div style="margin-top: 20px;">

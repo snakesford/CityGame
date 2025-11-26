@@ -1,5 +1,16 @@
 let wood = 50; // Start with 50 wood
-let wps = 1; // Base 1 wps, will be calculated from buildings
+let wps = 1;   // Base 1 wps, will be calculated from buildings
+
+let minerals = 0; // Stone/minerals resource
+let mps = 0;      // Minerals per second
+
+// New mineral resources
+let clay = 0;
+let limestone = 0;
+let iron = 0;
+let copper = 0;
+let tin = 0;
+let coal = 0;
 
 let population = 0;
 let housingCapacity = 0;
@@ -11,6 +22,15 @@ let singleFields = 0;
 let smallFarms = 0;
 let deforestStations = 0;
 let lumberMills = 0;
+
+// Mining buildings
+let stoneQuarries = 0;
+let clayPools = 0;
+let limestoneQuarries = 0;
+let ironMines = 0;
+let copperMines = 0;
+let tinMines = 0;
+let coalMines = 0;
 
 // Building data structure
 const buildingData = {
@@ -58,6 +78,67 @@ const buildingData = {
     benefit: "+1.8 Wood/sec",
     tier: 2,
     requires: "lumberMill"
+  },
+  stoneQuarry: {
+    name: "Stone Quarry",
+    cost: 40,
+    type: "minerals",
+    benefit: "+0.3 Minerals/sec",
+    tier: 1
+  },
+  clayPool: {
+    name: "Clay Pool",
+    cost: 60,
+    type: "minerals",
+    benefit: "+0.4 Clay/sec",
+    tier: 2,
+    requiresResource: "minerals",
+    requiresAmount: 20
+  },
+  limestoneQuarry: {
+    name: "Limestone Quarry",
+    cost: 80,
+    type: "minerals",
+    benefit: "+0.5 Limestone/sec",
+    tier: 3,
+    requiresResource: "clay",
+    requiresAmount: 20
+  },
+  ironMine: {
+    name: "Iron Mine",
+    cost: 100,
+    type: "minerals",
+    benefit: "+0.6 Iron/sec",
+    tier: 4,
+    requiresResource: "limestone",
+    requiresAmount: 20
+  },
+  copperMine: {
+    name: "Copper Mine",
+    cost: 120,
+    type: "minerals",
+    benefit: "+0.7 Copper/sec",
+    tier: 5,
+    requiresResource: "iron",
+    requiresAmount: 20
+  },
+  tinMine: {
+    name: "Tin Mine",
+    cost: 140,
+    type: "minerals",
+    benefit: "+0.8 Tin/sec",
+    tier: 6,
+    requiresResource: "copper",
+    requiresAmount: 20
+  },
+  coalMine: {
+    name: "Coal Mine",
+    cost: 160,
+    type: "minerals",
+    benefit: "+1.0 Coal/sec",
+    tier: 7,
+    requiresResource: "tin",
+    requiresAmount: 20
   }
 };
 
@@ -66,6 +147,14 @@ function saveGame() {
   const gameState = {
     wood: wood,
     wps: wps,
+    minerals: minerals,
+    mps: mps,
+    clay: clay,
+    limestone: limestone,
+    iron: iron,
+    copper: copper,
+    tin: tin,
+    coal: coal,
     population: population,
     housingCapacity: housingCapacity,
     tepees: tepees,
@@ -74,6 +163,13 @@ function saveGame() {
     smallFarms: smallFarms,
     deforestStations: deforestStations,
     lumberMills: lumberMills,
+    stoneQuarries: stoneQuarries,
+    clayPools: clayPools,
+    limestoneQuarries: limestoneQuarries,
+    ironMines: ironMines,
+    copperMines: copperMines,
+    tinMines: tinMines,
+    coalMines: coalMines,
     timestamp: Date.now()
   };
   localStorage.setItem('cityGameSave', JSON.stringify(gameState));
@@ -101,6 +197,14 @@ function resetGame() {
     localStorage.removeItem('cityGameSave');
     wood = 50;
     wps = 1;
+    minerals = 0;
+    mps = 0;
+    clay = 0;
+    limestone = 0;
+    iron = 0;
+    copper = 0;
+    tin = 0;
+    coal = 0;
     population = 0;
     housingCapacity = 0;
     tepees = 0;
@@ -109,8 +213,16 @@ function resetGame() {
     smallFarms = 0;
     deforestStations = 0;
     lumberMills = 0;
+    stoneQuarries = 0;
+    clayPools = 0;
+    limestoneQuarries = 0;
+    ironMines = 0;
+    copperMines = 0;
+    tinMines = 0;
+    coalMines = 0;
     calculateWPS();
     calculateHousingCapacity();
+    calculateMPS();
     updateUI();
     updateSaveStatus();
   }
@@ -123,6 +235,14 @@ function loadGame() {
       const gameState = JSON.parse(saved);
       wood = gameState.wood || 50;
       wps = gameState.wps || 1;
+      minerals = gameState.minerals || 0;
+      mps = gameState.mps || 0;
+      clay = gameState.clay || 0;
+      limestone = gameState.limestone || 0;
+      iron = gameState.iron || 0;
+      copper = gameState.copper || 0;
+      tin = gameState.tin || 0;
+      coal = gameState.coal || 0;
       population = gameState.population || 0;
       housingCapacity = gameState.housingCapacity || 0;
       // Load new tiered buildings, with fallback for old saves
@@ -132,8 +252,16 @@ function loadGame() {
       smallFarms = gameState.smallFarms || 0;
       deforestStations = gameState.deforestStations || gameState.mills || 0;
       lumberMills = gameState.lumberMills || 0;
+      stoneQuarries = gameState.stoneQuarries || 0;
+      clayPools = gameState.clayPools || 0;
+      limestoneQuarries = gameState.limestoneQuarries || 0;
+      ironMines = gameState.ironMines || 0;
+      copperMines = gameState.copperMines || 0;
+      tinMines = gameState.tinMines || 0;
+      coalMines = gameState.coalMines || 0;
       calculateWPS();
       calculateHousingCapacity();
+      calculateMPS();
       return true;
     } catch (e) {
       console.error('Error loading game:', e);
@@ -145,6 +273,14 @@ function loadGame() {
 function updateUI() {
   document.getElementById("wood").innerText = Math.floor(wood);
   document.getElementById("wps").innerText = wps.toFixed(2);
+  document.getElementById("minerals").innerText = Math.floor(minerals);
+  document.getElementById("mps").innerText = mps.toFixed(2);
+  document.getElementById("clay").innerText = Math.floor(clay);
+  document.getElementById("limestone").innerText = Math.floor(limestone);
+  document.getElementById("iron").innerText = Math.floor(iron);
+  document.getElementById("copper").innerText = Math.floor(copper);
+  document.getElementById("tin").innerText = Math.floor(tin);
+  document.getElementById("coal").innerText = Math.floor(coal);
   document.getElementById("population").innerText = Math.floor(population);
   document.getElementById("housingCapacity").innerText = housingCapacity;
 
@@ -155,6 +291,13 @@ function updateUI() {
   document.getElementById("smallFarms").innerText = smallFarms;
   document.getElementById("deforestStations").innerText = deforestStations;
   document.getElementById("lumberMills").innerText = lumberMills;
+  document.getElementById("stoneQuarries").innerText = stoneQuarries;
+  document.getElementById("clayPools").innerText = clayPools;
+  document.getElementById("limestoneQuarries").innerText = limestoneQuarries;
+  document.getElementById("ironMines").innerText = ironMines;
+  document.getElementById("copperMines").innerText = copperMines;
+  document.getElementById("tinMines").innerText = tinMines;
+  document.getElementById("coalMines").innerText = coalMines;
 
   // Update button states (enable/disable based on unlocks)
   updateButtonStates();
@@ -162,9 +305,14 @@ function updateUI() {
 
 function calculateWPS() {
   // Base 1 wps always, plus buildings
-  // Tier 1 (Lumber Mill): +1 wps each
-  // Tier 2 (Wood Processing Plant): +3 wps each
-  wps = 1 + (deforestStations * .6) + (lumberMills * 1.8);
+  // Tier 1 (Lumber Mill): +0.6 wps each
+  // Tier 2 (Wood Processing Plant): +1.8 wps each
+  wps = 1 + (deforestStations * 0.6) + (lumberMills * 1.8);
+}
+
+function calculateMPS() {
+  // Minerals from Stone Quarries only
+  mps = stoneQuarries * 0.3;
 }
 
 function calculateHousingCapacity() {
@@ -177,6 +325,14 @@ function updateButtonStates() {
   const cabinButton = document.getElementById("buyCabinBtn");
   const smallFarmButton = document.getElementById("buySmallFarmBtn");
   const woodProcessingPlantButton = document.getElementById("buyWoodProcessingPlantBtn");
+  
+  // Mineral building buttons
+  const clayPoolButton = document.getElementById("buyClayPoolBtn");
+  const limestoneQuarryButton = document.getElementById("buyLimestoneQuarryBtn");
+  const ironMineButton = document.getElementById("buyIronMineBtn");
+  const copperMineButton = document.getElementById("buyCopperMineBtn");
+  const tinMineButton = document.getElementById("buyTinMineBtn");
+  const coalMineButton = document.getElementById("buyCoalMineBtn");
 
   if (cabinButton) {
     cabinButton.disabled = tepees === 0;
@@ -200,6 +356,54 @@ function updateButtonStates() {
       woodProcessingPlantButton.title = "Build a Lumber Mill first to unlock";
     } else {
       woodProcessingPlantButton.title = "";
+    }
+  }
+  if (clayPoolButton) {
+    clayPoolButton.disabled = minerals < 20;
+    if (minerals < 20) {
+      clayPoolButton.title = "Requires 20 Minerals to unlock";
+    } else {
+      clayPoolButton.title = "";
+    }
+  }
+  if (limestoneQuarryButton) {
+    limestoneQuarryButton.disabled = clay < 20;
+    if (clay < 20) {
+      limestoneQuarryButton.title = "Requires 20 Clay to unlock";
+    } else {
+      limestoneQuarryButton.title = "";
+    }
+  }
+  if (ironMineButton) {
+    ironMineButton.disabled = limestone < 20;
+    if (limestone < 20) {
+      ironMineButton.title = "Requires 20 Limestone to unlock";
+    } else {
+      ironMineButton.title = "";
+    }
+  }
+  if (copperMineButton) {
+    copperMineButton.disabled = iron < 20;
+    if (iron < 20) {
+      copperMineButton.title = "Requires 20 Iron to unlock";
+    } else {
+      copperMineButton.title = "";
+    }
+  }
+  if (tinMineButton) {
+    tinMineButton.disabled = copper < 20;
+    if (copper < 20) {
+      tinMineButton.title = "Requires 20 Copper to unlock";
+    } else {
+      tinMineButton.title = "";
+    }
+  }
+  if (coalMineButton) {
+    coalMineButton.disabled = tin < 20;
+    if (tin < 20) {
+      coalMineButton.title = "Requires 20 Tin to unlock";
+    } else {
+      coalMineButton.title = "";
     }
   }
 }
@@ -271,10 +475,98 @@ function buyLumberMill() {
   }
 }
 
+// Mining tier 1
+function buyStoneQuarry() {
+  if (wood >= 40) {
+    wood -= 40;
+    stoneQuarries++;
+    calculateMPS();
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 2 - Clay Pool
+function buyClayPool() {
+  if (minerals < 20) return; // Must have 20 minerals
+  if (wood >= 60) {
+    wood -= 60;
+    clayPools++;
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 3 - Limestone Quarry
+function buyLimestoneQuarry() {
+  if (clay < 20) return; // Must have 20 clay
+  if (wood >= 80) {
+    wood -= 80;
+    limestoneQuarries++;
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 4 - Iron Mine
+function buyIronMine() {
+  if (limestone < 20) return; // Must have 20 limestone
+  if (wood >= 100) {
+    wood -= 100;
+    ironMines++;
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 5 - Copper Mine
+function buyCopperMine() {
+  if (iron < 20) return; // Must have 20 iron
+  if (wood >= 120) {
+    wood -= 120;
+    copperMines++;
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 6 - Tin Mine
+function buyTinMine() {
+  if (copper < 20) return; // Must have 20 copper
+  if (wood >= 140) {
+    wood -= 140;
+    tinMines++;
+    saveGame();
+    updateUI();
+  }
+}
+
+// Mining tier 7 - Coal Mine
+function buyCoalMine() {
+  if (tin < 20) return; // Must have 20 tin
+  if (wood >= 160) {
+    wood -= 160;
+    coalMines++;
+    saveGame();
+    updateUI();
+  }
+}
+
 setInterval(() => {
   // Produce wood (base 1 + buildings)
   wood += wps;
+
+  // Produce minerals
+  minerals += mps;
   
+  // Produce other mineral resources
+  clay += clayPools * 0.4;
+  limestone += limestoneQuarries * 0.5;
+  iron += ironMines * 0.6;
+  copper += copperMines * 0.7;
+  tin += tinMines * 0.8;
+  coal += coalMines * 1.0;
+
   // Produce people from farms (capped by housing capacity)
   if (population < housingCapacity) {
     let peoplePerSecond = (singleFields * 0.4) + (smallFarms * 1.0);
@@ -297,6 +589,24 @@ function showTooltip(event, buildingKey) {
 
   const canAfford = wood >= building.cost;
   const requirement = building.requires ? buildingData[building.requires] : null;
+  
+  // Check resource requirements
+  let hasResourceRequirement = true;
+  let resourceAmount = 0;
+  if (building.requiresResource) {
+    const resourceMap = {
+      'minerals': minerals,
+      'clay': clay,
+      'limestone': limestone,
+      'iron': iron,
+      'copper': copper,
+      'tin': tin
+    };
+    resourceAmount = resourceMap[building.requiresResource] || 0;
+    hasResourceRequirement = resourceAmount >= building.requiresAmount;
+  }
+  
+  // Check building requirements
   const hasRequirement = requirement ? 
     (buildingKey === 'cabin' ? tepees > 0 :
      buildingKey === 'smallFarm' ? singleFields > 0 :
@@ -308,6 +618,11 @@ function showTooltip(event, buildingKey) {
   
   if (requirement && !hasRequirement) {
     tooltipHTML += `<br><span style="color: #ff9800">Requires: ${requirement.name}</span>`;
+  }
+  
+  if (building.requiresResource && !hasResourceRequirement) {
+    const resourceName = building.requiresResource.charAt(0).toUpperCase() + building.requiresResource.slice(1);
+    tooltipHTML += `<br><span style="color: #ff9800">Requires: ${building.requiresAmount} ${resourceName} (You have: ${Math.floor(resourceAmount)})</span>`;
   }
 
   tooltip.innerHTML = tooltipHTML;
@@ -334,7 +649,14 @@ function initTooltips() {
     'buySingleFieldBtn': 'singleField',
     'buySmallFarmBtn': 'smallFarm',
     'buyLumberMillTier1Btn': 'lumberMill',
-    'buyWoodProcessingPlantBtn': 'woodProcessingPlant'
+    'buyWoodProcessingPlantBtn': 'woodProcessingPlant',
+    'buyStoneQuarryBtn': 'stoneQuarry',
+    'buyClayPoolBtn': 'clayPool',
+    'buyLimestoneQuarryBtn': 'limestoneQuarry',
+    'buyIronMineBtn': 'ironMine',
+    'buyCopperMineBtn': 'copperMine',
+    'buyTinMineBtn': 'tinMine',
+    'buyCoalMineBtn': 'coalMine'
   };
 
   for (const [buttonId, buildingKey] of Object.entries(buttons)) {

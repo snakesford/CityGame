@@ -1,154 +1,218 @@
-    body {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      text-align: center;
-      padding: 30px;
-      min-height: 100vh;
-    }
-    
-    h1 {
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-      color: #FFD700;
-    }
-    
-    h2, h3 {
-      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    }
-    
-    button {
-      padding: 12px 20px;
-      margin: 5px;
-      font-size: 16px;
-      font-weight: bold;
-      border-radius: 8px;
-      cursor: pointer;
-      border: 2px solid rgba(255,255,255,0.2);
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    }
-    
-    button:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
-    }
-    
-    button:active:not(:disabled) {
-      transform: translateY(0);
-    }
-    
-    /* Housing buttons - warm colors */
-    .housing-tier1 {
-      background: linear-gradient(135deg, #8B4513 0%, #A0522D 100%);
-      color: white;
-    }
-    
-    .housing-tier1:hover:not(:disabled) {
-      background: linear-gradient(135deg, #A0522D 0%, #CD853F 100%);
-    }
-    
-    .housing-tier2 {
-      background: linear-gradient(135deg, #D2691E 0%, #F4A460 100%);
-      color: white;
-    }
-    
-    .housing-tier2:hover:not(:disabled) {
-      background: linear-gradient(135deg, #F4A460 0%, #FFD700 100%);
-    }
-    
-    /* Farming buttons - green tones */
-    .farming-tier1 {
-      background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%);
-      color: white;
-    }
-    
-    .farming-tier1:hover:not(:disabled) {
-      background: linear-gradient(135deg, #3d6b1f 0%, #4a7c2a 100%);
-    }
-    
-    .farming-tier2 {
-      background: linear-gradient(135deg, #4a7c2a 0%, #6b9e3d 100%);
-      color: white;
-    }
-    
-    .farming-tier2:hover:not(:disabled) {
-      background: linear-gradient(135deg, #6b9e3d 0%, #8bc34a 100%);
-    }
-    
-    /* Wood production buttons - blue/teal tones */
-    .wood-tier1 {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2a4a7a 100%);
-      color: white;
-    }
-    
-    .wood-tier1:hover:not(:disabled) {
-      background: linear-gradient(135deg, #2a4a7a 0%, #3a5f9a 100%);
-    }
-    
-    .wood-tier2 {
-      background: linear-gradient(135deg, #2a4a7a 0%, #3a6baa 100%);
-      color: white;
-    }
-    
-    .wood-tier2:hover:not(:disabled) {
-      background: linear-gradient(135deg, #3a6baa 0%, #4a8bca 100%);
-    }
-    
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      background: #555 !important;
-      transform: none !important;
-    }
-    
-    /* Tooltip styling */
-    #tooltip {
-      position: absolute;
-      background: rgba(20, 20, 30, 0.95);
-      border: 2px solid #FFD700;
-      border-radius: 8px;
-      padding: 12px;
-      color: white;
-      font-size: 14px;
-      z-index: 1000;
-      pointer-events: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      min-width: 180px;
-      text-align: left;
-      line-height: 1.6;
-    }
-    
-    #tooltip strong {
-      color: #FFD700;
-      font-size: 16px;
-      display: block;
-      margin-bottom: 8px;
-      border-bottom: 1px solid rgba(255,215,0,0.3);
-      padding-bottom: 4px;
-    }
-    
-    /* Save/Reset buttons */
-    button:not(.building-btn) {
-      background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-      color: white;
-    }
-    
-    button:not(.building-btn):hover {
-      background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
-    }
-    
-    /* Building count display */
-    p {
-      background: rgba(255,255,255,0.05);
-      padding: 15px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,0.1);
-      margin: 20px auto;
-      max-width: 800px;
-    }
-    
-    /* Section headers */
-    h3 {
-      color: #FFD700;
-      margin-bottom: 15px;
-    }
+body {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 30px;
+    min-height: 100vh;
+  }
+  
+  h1 {
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    color: #FFD700;
+  }
+  
+  h2, h3 {
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
+  
+  button {
+    padding: 12px 20px;
+    margin: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  }
+  
+  button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+  }
+  
+  button:active:not(:disabled) {
+    transform: translateY(0);
+  }
+  
+  /* Housing buttons - orange */
+  .housing-tier1 {
+    background: linear-gradient(135deg, #EF6C00 0%, #FB8C00 100%);
+    color: white;
+  }
+  
+  .housing-tier1:hover:not(:disabled) {
+    background: linear-gradient(135deg, #FB8C00 0%, #FFA726 100%);
+  }
+  
+  .housing-tier2 {
+    background: linear-gradient(135deg, #FF9800 0%, #FFB74D 100%);
+    color: white;
+  }
+  
+  .housing-tier2:hover:not(:disabled) {
+    background: linear-gradient(135deg, #FFB74D 0%, #FFD54F 100%);
+  }
+  
+  /* Farming buttons - green tones */
+  .farming-tier1 {
+    background: linear-gradient(135deg, #2d5016 0%, #3d6b1f 100%);
+    color: white;
+  }
+  
+  .farming-tier1:hover:not(:disabled) {
+    background: linear-gradient(135deg, #3d6b1f 0%, #4a7c2a 100%);
+  }
+  
+  .farming-tier2 {
+    background: linear-gradient(135deg, #4a7c2a 0%, #6b9e3d 100%);
+    color: white;
+  }
+  
+  .farming-tier2:hover:not(:disabled) {
+    background: linear-gradient(135deg, #6b9e3d 0%, #8bc34a 100%);
+  }
+  
+  /* Wood production buttons - brown tones */
+  .wood-tier1 {
+    background: linear-gradient(135deg, #5D4037 0%, #6D4C41 100%);
+    color: white;
+  }
+  
+  .wood-tier1:hover:not(:disabled) {
+    background: linear-gradient(135deg, #6D4C41 0%, #8D6E63 100%);
+  }
+  
+  .wood-tier2 {
+    background: linear-gradient(135deg, #6D4C41 0%, #8D6E63 100%);
+    color: white;
+  }
+  
+  .wood-tier2:hover:not(:disabled) {
+    background: linear-gradient(135deg, #8D6E63 0%, #A1887F 100%);
+  }
+  
+  /* Mineral buttons - gray tones */
+  .mineral-tier1 {
+    background: linear-gradient(135deg, #616161 0%, #757575 100%);
+    color: white;
+  }
+  
+  .mineral-tier1:hover:not(:disabled) {
+    background: linear-gradient(135deg, #757575 0%, #9E9E9E 100%);
+  }
+  
+  .mineral-tier2 {
+    background: linear-gradient(135deg, #757575 0%, #9E9E9E 100%);
+    color: white;
+  }
+  
+  .mineral-tier2:hover:not(:disabled) {
+    background: linear-gradient(135deg, #9E9E9E 0%, #BDBDBD 100%);
+  }
+  
+  .mineral-tier3 {
+    background: linear-gradient(135deg, #8D6E63 0%, #A1887F 100%);
+    color: white;
+  }
+  
+  .mineral-tier3:hover:not(:disabled) {
+    background: linear-gradient(135deg, #A1887F 0%, #BCAAA4 100%);
+  }
+  
+  .mineral-tier4 {
+    background: linear-gradient(135deg, #5D4037 0%, #6D4C41 100%);
+    color: white;
+  }
+  
+  .mineral-tier4:hover:not(:disabled) {
+    background: linear-gradient(135deg, #6D4C41 0%, #8D6E63 100%);
+  }
+  
+  .mineral-tier5 {
+    background: linear-gradient(135deg, #B87333 0%, #CD853F 100%);
+    color: white;
+  }
+  
+  .mineral-tier5:hover:not(:disabled) {
+    background: linear-gradient(135deg, #CD853F 0%, #DAA520 100%);
+  }
+  
+  .mineral-tier6 {
+    background: linear-gradient(135deg, #708090 0%, #778899 100%);
+    color: white;
+  }
+  
+  .mineral-tier6:hover:not(:disabled) {
+    background: linear-gradient(135deg, #778899 0%, #87CEEB 100%);
+  }
+  
+  .mineral-tier7 {
+    background: linear-gradient(135deg, #2F2F2F 0%, #1C1C1C 100%);
+    color: white;
+  }
+  
+  .mineral-tier7:hover:not(:disabled) {
+    background: linear-gradient(135deg, #1C1C1C 0%, #363636 100%);
+  }
+  
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #555 !important;
+    transform: none !important;
+  }
+  
+  /* Tooltip styling */
+  #tooltip {
+    position: absolute;
+    background: rgba(20, 20, 30, 0.95);
+    border: 2px solid #FFD700;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-size: 14px;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    min-width: 180px;
+    text-align: left;
+    line-height: 1.6;
+  }
+  
+  #tooltip strong {
+    color: #FFD700;
+    font-size: 16px;
+    display: block;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+    padding-bottom: 4px;
+  }
+  
+  /* Save/Reset buttons */
+  button:not(.building-btn) {
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+    color: white;
+  }
+  
+  button:not(.building-btn):hover {
+    background: linear-gradient(135deg, #5a6578 0%, #3d4758 100%);
+  }
+  
+  /* Building count display */
+  p {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin: 20px auto;
+    max-width: 800px;
+  }
+  
+  /* Section headers */
+  h3 {
+    color: #FFD700;
+    margin-bottom: 15px;
+  }
