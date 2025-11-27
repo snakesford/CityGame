@@ -35,26 +35,148 @@ let copperMines = 0;
 let tinMines = 0;
 let coalMines = 0;
 
-// Building data structure - loaded from JSON
-let buildingData = {};
-
-// Load building data from embedded JSON in HTML
-function loadBuildingData() {
-  try {
-    const buildingsScript = document.getElementById('buildings-data');
-    if (buildingsScript) {
-      buildingData = JSON.parse(buildingsScript.textContent);
-      console.log('Building data loaded successfully');
-    } else {
-      console.error('Buildings data script tag not found');
-      buildingData = {};
-    }
-  } catch (error) {
-    console.error('Error loading building data:', error);
-    // Fallback to empty object if JSON fails to load
-    buildingData = {};
+// Building data structure
+const buildingData = {
+  tepee: {
+    name: "Tepee",
+    cost: 8,
+    type: "housing",
+    benefit: "+3 Housing Capacity",
+    tier: 1
+  },
+  cabin: {
+    name: "Wooden Cabin",
+    cost: 20,
+    type: "housing",
+    benefit: "+8 Housing Capacity",
+    tier: 2,
+    requires: "tepee"
+  },
+  singleField: {
+    name: "Single Field",
+    cost: 20,
+    type: "farming",
+    benefit: "+0.4 People/sec",
+    tier: 1
+  },
+  smallFarm: {
+    name: "Small Farm",
+    cost: 50,
+    type: "farming",
+    benefit: "+1.0 People/sec",
+    tier: 2,
+    requires: "singleField"
+  },
+  lumberMill: {
+    name: "Lumber Mill",
+    cost: 35,
+    type: "wood",
+    benefit: "+0.6 Wood/sec",
+    tier: 1
+  },
+  woodProcessingPlant: {
+    name: "Wood Processing Plant",
+    cost: 80,
+    type: "wood",
+    benefit: "+1.8 Wood/sec",
+    tier: 2,
+    requires: "lumberMill"
+  },
+  advancedSawmill: {
+    name: "Advanced Sawmill",
+    cost: 150,
+    type: "wood",
+    benefit: "+3.0 Wood/sec",
+    tier: 3,
+    requires: "woodProcessingPlant",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
+  },
+  industrialMill: {
+    name: "Industrial Mill",
+    cost: 250,
+    type: "wood",
+    benefit: "+5.0 Wood/sec",
+    tier: 4,
+    requires: "advancedSawmill",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
+  },
+  megaProcessingFacility: {
+    name: "Mega Processing Facility",
+    cost: 400,
+    type: "wood",
+    benefit: "+8.0 Wood/sec",
+    tier: 5,
+    requires: "industrialMill",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
+  },
+  stoneQuarry: {
+    name: "Stone Quarry",
+    cost: 40,
+    type: "minerals",
+    benefit: "+0.3 Minerals/sec",
+    tier: 1
+  },
+  clayPool: {
+    name: "Clay Pool",
+    cost: 60,
+    type: "minerals",
+    benefit: "+0.4 Clay/sec",
+    tier: 2,
+    requiresResource: "minerals",
+    requiresAmount: 20
+  },
+  limestoneQuarry: {
+    name: "Limestone Quarry",
+    cost: 80,
+    type: "minerals",
+    benefit: "+0.5 Limestone/sec",
+    tier: 3,
+    requiresResource: "clay",
+    requiresAmount: 20
+  },
+  ironMine: {
+    name: "Iron Mine",
+    cost: 100,
+    type: "minerals",
+    benefit: "+0.6 Iron/sec",
+    tier: 4,
+    requiresResource: "limestone",
+    requiresAmount: 20
+  },
+  copperMine: {
+    name: "Copper Mine",
+    cost: 120,
+    type: "minerals",
+    benefit: "+0.7 Copper/sec",
+    tier: 5,
+    requiresResource: "iron",
+    requiresAmount: 20
+  },
+  tinMine: {
+    name: "Tin Mine",
+    cost: 140,
+    type: "minerals",
+    benefit: "+0.8 Tin/sec",
+    tier: 6,
+    requiresResource: "copper",
+    requiresAmount: 20
+  },
+  coalMine: {
+    name: "Coal Mine",
+    cost: 160,
+    type: "minerals",
+    benefit: "+1.0 Coal/sec",
+    tier: 7,
+    requiresResource: "tin",
+    requiresAmount: 20
   }
-}
+};
 
 // Progress tracking - save game state to localStorage
 function saveGame() {
@@ -437,51 +559,10 @@ function updateButtonStates() {
   }
 }
 
-// Generic purchase function helper
-function canPurchaseBuilding(buildingKey) {
-  const building = buildingData[buildingKey];
-  if (!building) return false;
-  
-  // Check wood cost
-  if (wood < building.cost) return false;
-  
-  // Check resource requirements
-  if (building.requiresMineral && minerals < building.requiresMineral) return false;
-  if (building.requiresIron && iron < building.requiresIron) return false;
-  if (building.requiresCopper && copper < building.requiresCopper) return false;
-  if (building.requiresResource) {
-    const resourceMap = {
-      'minerals': minerals,
-      'clay': clay,
-      'limestone': limestone,
-      'iron': iron,
-      'copper': copper,
-      'tin': tin
-    };
-    const resourceAmount = resourceMap[building.requiresResource] || 0;
-    if (resourceAmount < building.requiresAmount) return false;
-  }
-  
-  return true;
-}
-
-function purchaseBuilding(buildingKey) {
-  const building = buildingData[buildingKey];
-  if (!building) return false;
-  
-  // Deduct costs
-  wood -= building.cost;
-  if (building.requiresMineral) minerals -= building.requiresMineral;
-  if (building.requiresIron) iron -= building.requiresIron;
-  if (building.requiresCopper) copper -= building.requiresCopper;
-  
-  return true;
-}
-
 // Housing tier 1
 function buyTepee() {
-  if (!canPurchaseBuilding('tepee')) return;
-  if (purchaseBuilding('tepee')) {
+  if (wood >= 8) {
+    wood -= 8;
     tepees++;
     calculateHousingCapacity();
     saveGame();
@@ -491,9 +572,9 @@ function buyTepee() {
 
 // Housing tier 2
 function buyCabin() {
-  if (tepees === 0) return;
-  if (!canPurchaseBuilding('cabin')) return;
-  if (purchaseBuilding('cabin')) {
+  if (tepees === 0) return; // Must have at least one tepee
+  if (wood >= 20) {
+    wood -= 20;
     cabins++;
     calculateHousingCapacity();
     saveGame();
@@ -503,8 +584,8 @@ function buyCabin() {
 
 // Farming tier 1
 function buySingleField() {
-  if (!canPurchaseBuilding('singleField')) return;
-  if (purchaseBuilding('singleField')) {
+  if (wood >= 20) {
+    wood -= 20;
     singleFields++;
     saveGame();
     updateUI();
@@ -513,9 +594,9 @@ function buySingleField() {
 
 // Farming tier 2
 function buySmallFarm() {
-  if (singleFields === 0) return;
-  if (!canPurchaseBuilding('smallFarm')) return;
-  if (purchaseBuilding('smallFarm')) {
+  if (singleFields === 0) return; // Must have at least one single field
+  if (wood >= 50) {
+    wood -= 50;
     smallFarms++;
     saveGame();
     updateUI();
@@ -524,8 +605,8 @@ function buySmallFarm() {
 
 // Wood production tier 1
 function buyDeforestStation() {
-  if (!canPurchaseBuilding('lumberMill')) return;
-  if (purchaseBuilding('lumberMill')) {
+  if (wood >= 35) {
+    wood -= 35;
     deforestStations++;
     calculateWPS();
     saveGame();
@@ -535,9 +616,9 @@ function buyDeforestStation() {
 
 // Wood production tier 2
 function buyLumberMill() {
-  if (deforestStations === 0) return;
-  if (!canPurchaseBuilding('woodProcessingPlant')) return;
-  if (purchaseBuilding('woodProcessingPlant')) {
+  if (deforestStations === 0) return; // Must have at least one Lumber Mill (tier 1)
+  if (wood >= 80) {
+    wood -= 80;
     lumberMills++;
     calculateWPS();
     saveGame();
@@ -547,9 +628,13 @@ function buyLumberMill() {
 
 // Wood production tier 3
 function buyAdvancedSawmill() {
-  if (lumberMills === 0) return;
-  if (!canPurchaseBuilding('advancedSawmill')) return;
-  if (purchaseBuilding('advancedSawmill')) {
+  if (lumberMills === 0) return; // Must have at least one Wood Processing Plant
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 150) {
+    wood -= 150;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
     advancedSawmills++;
     calculateWPS();
     saveGame();
@@ -559,9 +644,13 @@ function buyAdvancedSawmill() {
 
 // Wood production tier 4
 function buyIndustrialMill() {
-  if (advancedSawmills === 0) return;
-  if (!canPurchaseBuilding('industrialMill')) return;
-  if (purchaseBuilding('industrialMill')) {
+  if (advancedSawmills === 0) return; // Must have at least one Advanced Sawmill
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 250) {
+    wood -= 250;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
     industrialMills++;
     calculateWPS();
     saveGame();
@@ -571,9 +660,13 @@ function buyIndustrialMill() {
 
 // Wood production tier 5
 function buyMegaProcessingFacility() {
-  if (industrialMills === 0) return;
-  if (!canPurchaseBuilding('megaProcessingFacility')) return;
-  if (purchaseBuilding('megaProcessingFacility')) {
+  if (industrialMills === 0) return; // Must have at least one Industrial Mill
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 400) {
+    wood -= 400;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
     megaProcessingFacilities++;
     calculateWPS();
     saveGame();
@@ -583,8 +676,8 @@ function buyMegaProcessingFacility() {
 
 // Mining tier 1
 function buyStoneQuarry() {
-  if (!canPurchaseBuilding('stoneQuarry')) return;
-  if (purchaseBuilding('stoneQuarry')) {
+  if (wood >= 40) {
+    wood -= 40;
     stoneQuarries++;
     calculateMPS();
     saveGame();
@@ -594,8 +687,9 @@ function buyStoneQuarry() {
 
 // Mining tier 2 - Clay Pool
 function buyClayPool() {
-  if (!canPurchaseBuilding('clayPool')) return;
-  if (purchaseBuilding('clayPool')) {
+  if (minerals < 20) return; // Must have 20 minerals
+  if (wood >= 60) {
+    wood -= 60;
     clayPools++;
     saveGame();
     updateUI();
@@ -604,8 +698,9 @@ function buyClayPool() {
 
 // Mining tier 3 - Limestone Quarry
 function buyLimestoneQuarry() {
-  if (!canPurchaseBuilding('limestoneQuarry')) return;
-  if (purchaseBuilding('limestoneQuarry')) {
+  if (clay < 20) return; // Must have 20 clay
+  if (wood >= 80) {
+    wood -= 80;
     limestoneQuarries++;
     saveGame();
     updateUI();
@@ -614,8 +709,9 @@ function buyLimestoneQuarry() {
 
 // Mining tier 4 - Iron Mine
 function buyIronMine() {
-  if (!canPurchaseBuilding('ironMine')) return;
-  if (purchaseBuilding('ironMine')) {
+  if (limestone < 20) return; // Must have 20 limestone
+  if (wood >= 100) {
+    wood -= 100;
     ironMines++;
     saveGame();
     updateUI();
@@ -624,8 +720,9 @@ function buyIronMine() {
 
 // Mining tier 5 - Copper Mine
 function buyCopperMine() {
-  if (!canPurchaseBuilding('copperMine')) return;
-  if (purchaseBuilding('copperMine')) {
+  if (iron < 20) return; // Must have 20 iron
+  if (wood >= 120) {
+    wood -= 120;
     copperMines++;
     saveGame();
     updateUI();
@@ -634,8 +731,9 @@ function buyCopperMine() {
 
 // Mining tier 6 - Tin Mine
 function buyTinMine() {
-  if (!canPurchaseBuilding('tinMine')) return;
-  if (purchaseBuilding('tinMine')) {
+  if (copper < 20) return; // Must have 20 copper
+  if (wood >= 140) {
+    wood -= 140;
     tinMines++;
     saveGame();
     updateUI();
@@ -644,8 +742,9 @@ function buyTinMine() {
 
 // Mining tier 7 - Coal Mine
 function buyCoalMine() {
-  if (!canPurchaseBuilding('coalMine')) return;
-  if (purchaseBuilding('coalMine')) {
+  if (tin < 20) return; // Must have 20 tin
+  if (wood >= 160) {
+    wood -= 160;
     coalMines++;
     saveGame();
     updateUI();
@@ -794,19 +893,9 @@ function initTooltips() {
   }
 }
 
-// Initialize game - load building data first, then everything else
-function initializeGame() {
-  loadBuildingData();
-  loadGame();
+// Load saved game on page load
+loadGame();
 updateUI();
-  updateSaveStatus();
-  // Initialize tooltips after DOM is ready
-  setTimeout(initTooltips, 100);
-}
-
-// Start initialization when page loads
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeGame);
-} else {
-  initializeGame();
-}
+updateSaveStatus();
+// Initialize tooltips after DOM is ready
+setTimeout(initTooltips, 100);
