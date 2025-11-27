@@ -94,6 +94,33 @@ body {
     background: linear-gradient(135deg, #8D6E63 0%, #A1887F 100%);
   }
   
+  .wood-tier3 {
+    background: linear-gradient(135deg, #8D6E63 0%, #A1887F 100%);
+    color: white;
+  }
+  
+  .wood-tier3:hover:not(:disabled) {
+    background: linear-gradient(135deg, #A1887F 0%, #BCAAA4 100%);
+  }
+  
+  .wood-tier4 {
+    background: linear-gradient(135deg, #A1887F 0%, #BCAAA4 100%);
+    color: white;
+  }
+  
+  .wood-tier4:hover:not(:disabled) {
+    background: linear-gradient(135deg, #BCAAA4 0%, #D7CCC8 100%);
+  }
+  
+  .wood-tier5 {
+    background: linear-gradient(135deg, #BCAAA4 0%, #D7CCC8 100%);
+    color: #333;
+  }
+  
+  .wood-tier5:hover:not(:disabled) {
+    background: linear-gradient(135deg, #D7CCC8 0%, #EFEBE9 100%);
+  }
+  
   /* Mineral buttons - gray tones */
   .mineral-tier1 {
     background: linear-gradient(135deg, #616161 0%, #757575 100%);

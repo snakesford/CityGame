@@ -22,6 +22,9 @@ let singleFields = 0;
 let smallFarms = 0;
 let deforestStations = 0;
 let lumberMills = 0;
+let advancedSawmills = 0;
+let industrialMills = 0;
+let megaProcessingFacilities = 0;
 
 // Mining buildings
 let stoneQuarries = 0;
@@ -78,6 +81,39 @@ const buildingData = {
     benefit: "+1.8 Wood/sec",
     tier: 2,
     requires: "lumberMill"
+  },
+  advancedSawmill: {
+    name: "Advanced Sawmill",
+    cost: 150,
+    type: "wood",
+    benefit: "+3.0 Wood/sec",
+    tier: 3,
+    requires: "woodProcessingPlant",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
+  },
+  industrialMill: {
+    name: "Industrial Mill",
+    cost: 250,
+    type: "wood",
+    benefit: "+5.0 Wood/sec",
+    tier: 4,
+    requires: "advancedSawmill",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
+  },
+  megaProcessingFacility: {
+    name: "Mega Processing Facility",
+    cost: 400,
+    type: "wood",
+    benefit: "+8.0 Wood/sec",
+    tier: 5,
+    requires: "industrialMill",
+    requiresMineral: 1,
+    requiresIron: 1,
+    requiresCopper: 1
   },
   stoneQuarry: {
     name: "Stone Quarry",
@@ -163,6 +199,9 @@ function saveGame() {
     smallFarms: smallFarms,
     deforestStations: deforestStations,
     lumberMills: lumberMills,
+    advancedSawmills: advancedSawmills,
+    industrialMills: industrialMills,
+    megaProcessingFacilities: megaProcessingFacilities,
     stoneQuarries: stoneQuarries,
     clayPools: clayPools,
     limestoneQuarries: limestoneQuarries,
@@ -213,6 +252,9 @@ function resetGame() {
     smallFarms = 0;
     deforestStations = 0;
     lumberMills = 0;
+    advancedSawmills = 0;
+    industrialMills = 0;
+    megaProcessingFacilities = 0;
     stoneQuarries = 0;
     clayPools = 0;
     limestoneQuarries = 0;
@@ -252,6 +294,9 @@ function loadGame() {
       smallFarms = gameState.smallFarms || 0;
       deforestStations = gameState.deforestStations || gameState.mills || 0;
       lumberMills = gameState.lumberMills || 0;
+      advancedSawmills = gameState.advancedSawmills || 0;
+      industrialMills = gameState.industrialMills || 0;
+      megaProcessingFacilities = gameState.megaProcessingFacilities || 0;
       stoneQuarries = gameState.stoneQuarries || 0;
       clayPools = gameState.clayPools || 0;
       limestoneQuarries = gameState.limestoneQuarries || 0;
@@ -291,6 +336,9 @@ function updateUI() {
   document.getElementById("smallFarms").innerText = smallFarms;
   document.getElementById("deforestStations").innerText = deforestStations;
   document.getElementById("lumberMills").innerText = lumberMills;
+  document.getElementById("advancedSawmills").innerText = advancedSawmills;
+  document.getElementById("industrialMills").innerText = industrialMills;
+  document.getElementById("megaProcessingFacilities").innerText = megaProcessingFacilities;
   document.getElementById("stoneQuarries").innerText = stoneQuarries;
   document.getElementById("clayPools").innerText = clayPools;
   document.getElementById("limestoneQuarries").innerText = limestoneQuarries;
@@ -307,7 +355,12 @@ function calculateWPS() {
   // Base 1 wps always, plus buildings
   // Tier 1 (Lumber Mill): +0.6 wps each
   // Tier 2 (Wood Processing Plant): +1.8 wps each
-  wps = 1 + (deforestStations * 0.6) + (lumberMills * 1.8);
+  // Tier 3 (Advanced Sawmill): +3.0 wps each
+  // Tier 4 (Industrial Mill): +5.0 wps each
+  // Tier 5 (Mega Processing Facility): +8.0 wps each
+  wps = 1 + (deforestStations * 0.6) + (lumberMills * 1.8) + 
+        (advancedSawmills * 3.0) + (industrialMills * 5.0) + 
+        (megaProcessingFacilities * 8.0);
 }
 
 function calculateMPS() {
@@ -328,6 +381,12 @@ function updateButtonStates() {
   const smallFarmDiv = smallFarmButton ? smallFarmButton.parentElement : null;
   const woodProcessingPlantButton = document.getElementById("buyWoodProcessingPlantBtn");
   const woodProcessingPlantDiv = woodProcessingPlantButton ? woodProcessingPlantButton.parentElement : null;
+  const advancedSawmillButton = document.getElementById("buyAdvancedSawmillBtn");
+  const advancedSawmillDiv = advancedSawmillButton ? advancedSawmillButton.parentElement : null;
+  const industrialMillButton = document.getElementById("buyIndustrialMillBtn");
+  const industrialMillDiv = industrialMillButton ? industrialMillButton.parentElement : null;
+  const megaProcessingFacilityButton = document.getElementById("buyMegaProcessingFacilityBtn");
+  const megaProcessingFacilityDiv = megaProcessingFacilityButton ? megaProcessingFacilityButton.parentElement : null;
   
   // Mineral building buttons
   const clayPoolButton = document.getElementById("buyClayPoolBtn");
@@ -378,6 +437,45 @@ function updateButtonStates() {
       if (woodProcessingPlantButton) {
         woodProcessingPlantButton.disabled = false;
         woodProcessingPlantButton.title = "";
+      }
+    }
+  }
+  
+  // Wood Production tier 3 - Advanced Sawmill
+  if (advancedSawmillDiv) {
+    if (lumberMills === 0 || minerals < 1 || iron < 1 || copper < 1) {
+      advancedSawmillDiv.style.display = 'none';
+    } else {
+      advancedSawmillDiv.style.display = 'block';
+      if (advancedSawmillButton) {
+        advancedSawmillButton.disabled = false;
+        advancedSawmillButton.title = "";
+      }
+    }
+  }
+  
+  // Wood Production tier 4 - Industrial Mill
+  if (industrialMillDiv) {
+    if (advancedSawmills === 0 || minerals < 1 || iron < 1 || copper < 1) {
+      industrialMillDiv.style.display = 'none';
+    } else {
+      industrialMillDiv.style.display = 'block';
+      if (industrialMillButton) {
+        industrialMillButton.disabled = false;
+        industrialMillButton.title = "";
+      }
+    }
+  }
+  
+  // Wood Production tier 5 - Mega Processing Facility
+  if (megaProcessingFacilityDiv) {
+    if (industrialMills === 0 || minerals < 1 || iron < 1 || copper < 1) {
+      megaProcessingFacilityDiv.style.display = 'none';
+    } else {
+      megaProcessingFacilityDiv.style.display = 'block';
+      if (megaProcessingFacilityButton) {
+        megaProcessingFacilityButton.disabled = false;
+        megaProcessingFacilityButton.title = "";
       }
     }
   }
@@ -528,6 +626,54 @@ function buyLumberMill() {
   }
 }
 
+// Wood production tier 3
+function buyAdvancedSawmill() {
+  if (lumberMills === 0) return; // Must have at least one Wood Processing Plant
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 150) {
+    wood -= 150;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
+    advancedSawmills++;
+    calculateWPS();
+    saveGame();
+    updateUI();
+  }
+}
+
+// Wood production tier 4
+function buyIndustrialMill() {
+  if (advancedSawmills === 0) return; // Must have at least one Advanced Sawmill
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 250) {
+    wood -= 250;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
+    industrialMills++;
+    calculateWPS();
+    saveGame();
+    updateUI();
+  }
+}
+
+// Wood production tier 5
+function buyMegaProcessingFacility() {
+  if (industrialMills === 0) return; // Must have at least one Industrial Mill
+  if (minerals < 1 || iron < 1 || copper < 1) return; // Must have resources
+  if (wood >= 400) {
+    wood -= 400;
+    minerals -= 1;
+    iron -= 1;
+    copper -= 1;
+    megaProcessingFacilities++;
+    calculateWPS();
+    saveGame();
+    updateUI();
+  }
+}
+
 // Mining tier 1
 function buyStoneQuarry() {
   if (wood >= 40) {
@@ -663,11 +809,34 @@ function showTooltip(event, buildingKey) {
   const hasRequirement = requirement ? 
     (buildingKey === 'cabin' ? tepees > 0 :
      buildingKey === 'smallFarm' ? singleFields > 0 :
-     buildingKey === 'woodProcessingPlant' ? deforestStations > 0 : true) : true;
+     buildingKey === 'woodProcessingPlant' ? deforestStations > 0 :
+     buildingKey === 'advancedSawmill' ? lumberMills > 0 :
+     buildingKey === 'industrialMill' ? advancedSawmills > 0 :
+     buildingKey === 'megaProcessingFacility' ? industrialMills > 0 : true) : true;
+
+  // Check for mineral/iron/copper requirements
+  const hasMineral = building.requiresMineral ? minerals >= building.requiresMineral : true;
+  const hasIron = building.requiresIron ? iron >= building.requiresIron : true;
+  const hasCopper = building.requiresCopper ? copper >= building.requiresCopper : true;
 
   let tooltipHTML = `<strong>${building.name}</strong><br>`;
-  tooltipHTML += `<span style="color: ${canAfford ? '#4CAF50' : '#f44336'}">Cost: ${building.cost} <img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"></span><br>`;
-  tooltipHTML += `<span style="color: #FFD700">${building.benefit}</span>`;
+  tooltipHTML += `<span style="color: ${canAfford ? '#4CAF50' : '#f44336'}">Cost: ${building.cost} <img src="wood-log.png" alt="Wood" style="width: 16px; height: 16px; vertical-align: middle;"></span>`;
+  
+  // Add resource costs
+  if (building.requiresMineral || building.requiresIron || building.requiresCopper) {
+    tooltipHTML += `<br>`;
+    if (building.requiresMineral) {
+      tooltipHTML += `<span style="color: ${hasMineral ? '#4CAF50' : '#f44336'}">${building.requiresMineral} Mineral${building.requiresMineral > 1 ? 's' : ''}</span> `;
+    }
+    if (building.requiresIron) {
+      tooltipHTML += `<span style="color: ${hasIron ? '#4CAF50' : '#f44336'}">${building.requiresIron} Iron</span> `;
+    }
+    if (building.requiresCopper) {
+      tooltipHTML += `<span style="color: ${hasCopper ? '#4CAF50' : '#f44336'}">${building.requiresCopper} Copper</span>`;
+    }
+  }
+  
+  tooltipHTML += `<br><span style="color: #FFD700">${building.benefit}</span>`;
   
   if (requirement && !hasRequirement) {
     tooltipHTML += `<br><span style="color: #ff9800">Requires: ${requirement.name}</span>`;
@@ -703,6 +872,9 @@ function initTooltips() {
     'buySmallFarmBtn': 'smallFarm',
     'buyLumberMillTier1Btn': 'lumberMill',
     'buyWoodProcessingPlantBtn': 'woodProcessingPlant',
+    'buyAdvancedSawmillBtn': 'advancedSawmill',
+    'buyIndustrialMillBtn': 'industrialMill',
+    'buyMegaProcessingFacilityBtn': 'megaProcessingFacility',
     'buyStoneQuarryBtn': 'stoneQuarry',
     'buyClayPoolBtn': 'clayPool',
     'buyLimestoneQuarryBtn': 'limestoneQuarry',
